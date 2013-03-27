@@ -3,17 +3,17 @@
   (:require clojure.pprint)
   (:gen-class))
 
+(defn is-elem? [item]
+  (and (= (tag item) :h3) (= (:class (attributes item)) "r")))
 
 (defn scan-tree [result tree]
   (cond 
     (not (vector? tree)) 
       result
-    (and (= (tag tree) :h3) (= (:class (attributes tree)) "r"))
+    (is-elem? tree)
       (conj result (:href (attributes (first (children tree)))))
     :else 
-      (reduce scan-tree result (children tree))
-  )
-)
+      (reduce scan-tree result (children tree))))
 
 
 (defn get-links []
