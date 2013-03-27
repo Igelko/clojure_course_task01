@@ -1,17 +1,19 @@
 (ns task01.core
   (:require [pl.danieljanus.tagsoup :refer :all])
-  (:require clojure.pprint)
   (:gen-class))
 
 (defn is-elem? [item]
   (and (= (tag item) :h3) (= (:class (attributes item)) "r")))
 
+(defn extract-data [item]
+  (:href (attributes (first (children item))))
+)
+
 (defn scan-tree [result tree]
   (cond 
     (not (vector? tree)) 
       result
-    (is-elem? tree)
-      (conj result (:href (attributes (first (children tree)))))
+    (is-elem? tree) (conj result (extract-data tree))
     :else 
       (reduce scan-tree result (children tree))))
 

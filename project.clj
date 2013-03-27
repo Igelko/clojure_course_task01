@@ -7,3 +7,4 @@
                  [clj-tagsoup "0.3.0"]]
   :aot :all
   :main task01.core)
+
